@@ -56,31 +56,9 @@
 
     - name: Set up systemd service file for Tomcat 9
       copy:
-        dest: /etc/systemd/system/tomcat.service
-        content: |
-          [Unit]
-          Description=Apache Tomcat 9
-          After=network.target
-
-          [Service]
-          Type=forking
-
-          User=tomcat
-          Group=tomcat
-
-          Environment="JAVA_HOME=/usr/lib/jvm/java-17-openjdk"
-          Environment="CATALINA_HOME={{ tomcat_home }}"
-          Environment="CATALINA_BASE={{ tomcat_home }}"
-          Environment="CATALINA_PID={{ tomcat_home }}/temp/tomcat.pid"
-          Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
-          Environment="JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom"
-
-          ExecStart={{ tomcat_home }}/bin/startup.sh
-          ExecStop={{ tomcat_home }}/bin/shutdown.sh
-
-          [Install]
-          WantedBy=multi-user.target
-      mode: "0644"
+          src: /path/to/service/file
+          dest: /etc/systemd/system/tomcat9.service
+          mode: "0644"
 
     - name: Reload systemd configuration
       systemd:
