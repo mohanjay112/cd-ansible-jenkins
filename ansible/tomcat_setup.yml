@@ -39,13 +39,9 @@
         src: /tmp/tomcat-9.tar.gz
         dest: /tmp/
         remote_src: yes
-      register: unarchive_info
-
-    - debug:
-        msg: "Extracted folder: {{ unarchive_info.files[0].split('/')[0] }}"
 
     - name: Move Tomcat files to installation directory
-      command: mv "/tmp/{{ unarchive_info.files[0].split('/')[0] }}" "{{ tomcat_home }}"
+      shell: mv /tmp/apache-tomcat-9.0.72/* "{{ tomcat_home }}/"
 
     - name: Change ownership of Tomcat directory
       file:
@@ -56,9 +52,9 @@
 
     - name: Set up systemd service file for Tomcat 9
       copy:
-          src: /path/to/service/file
-          dest: /etc/systemd/system/tomcat9.service
-          mode: "0644"
+        src: /path/to/tomcat9.service
+        dest: /etc/systemd/system/tomcat9.service
+        mode: "0644"
 
     - name: Reload systemd configuration
       systemd:
@@ -66,6 +62,6 @@
 
     - name: Start and enable Tomcat 9
       service:
-        name: tomcat
+        name: tomcat9
         state: started
         enabled: yes
